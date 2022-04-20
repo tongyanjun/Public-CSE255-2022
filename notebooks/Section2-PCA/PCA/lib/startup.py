@@ -13,9 +13,7 @@ import pyspark
 from pyspark import SparkContext
 from lib import sparkConfig
 
-print(sparkConfig.conf.getAll())
-
-sc = SparkContext(conf=sparkConfig.conf,pyFiles=['lib.tgz'])
+sc = SparkContext(pyFiles=['lib.tgz'])
 print('sparkContext=',sc)
 print()
 
