@@ -50,7 +50,7 @@ warnings.filterwarnings('ignore')
 
 ## Change the paths here to account for current location of parquest files
 ## load measurement and stations dataframe
-parquet_root='/datasets/cs255-sp22-a00-public/'
+parquet_root='/home/jovyan/weather/datasets'
 
 measurements_path=parquet_root+'/weather-parquet'
 measurements=sqlContext.read.parquet(measurements_path)

@@ -19,12 +19,12 @@ def computeStatistics(sqlContext,df,measurements=_measurements):
              second keys described in computeStats.STAT_Descriptions
     """
 
-    sqlContext.registerDataFrameAsTable(df,'weather')
+    sqlContext.registerDataFrameAsTable(df,'local_weather')
     STAT={}  # dictionary storing the statistics for each measurement
     
     for meas in measurements:
         t=time()
-        Query="SELECT * FROM weather\n\tWHERE measurement = '%s'"%(meas)
+        Query="SELECT * FROM local_weather\n\tWHERE measurement = '%s'"%(meas)
         mdf = sqlContext.sql(Query)
         mdf_count=mdf.count()
         print(meas,': shape of mdf is ',mdf_count)
@@ -61,8 +61,13 @@ def computeOverAllDist(rdd0):
     UnDef=np.array(rdd0.map(lambda row:sum(np.isnan(row))).sample(False,0.1).collect())
     flat=rdd0.flatMap(lambda v:list(v)).filter(lambda x: not np.isnan(x)).cache()
     # compute first and second order statistics
-    count,S1,S2=flat.map(lambda x: np.float64([1,x,x**2]))\
-                  .reduce(lambda x,y: x+y)
+    try:
+        count,S1,S2=flat.map(lambda x: np.float64([1,x,x**2]))\
+                      .reduce(lambda x,y: x+y)
+    except:
+        print('error in computeOverallDist, len rdd0=',rdd.count())
+        print('undefs=',UnDef.take(10))
+        print('flat=',flat.take(10))
     mean=S1/count
     std=np.sqrt(S2/count-mean**2)
     
