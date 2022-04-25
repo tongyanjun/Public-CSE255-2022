@@ -50,15 +50,19 @@ warnings.filterwarnings('ignore')
 
 ## Change the paths here to account for current location of parquest files
 ## load measurement and stations dataframe
-parquet_root='/home/jovyan/weather/datasets'
+parquet_root='/datasets/cs255-sp22-a00-public/'
 
 measurements_path=parquet_root+'/weather-parquet'
 measurements=sqlContext.read.parquet(measurements_path)
 sqlContext.registerDataFrameAsTable(measurements,'measurements')
 
-print('measurements is a Dataframe with %d records'%(measurements.count()))
+print('measurements is a Dataframe (and table) with %d records'%(measurements.count()))
 
 stations_path=parquet_root+'/stations-parquet'
 stations=sqlContext.read.parquet(stations_path)
 sqlContext.registerDataFrameAsTable(stations,'stations')
-print('stations is a Dataframe with %d records'%(stations.count()))
+print('stations is a Dataframe (and table) with %d records'%(stations.count()))
+
+weather=measurements.join(stations,on='station')
+print('weather is a Dataframe (and table) which is a join of measurements and stations with %d records'%(weather.count()))
+sqlContext.registerDataFrameAsTable(weather,'weather')
