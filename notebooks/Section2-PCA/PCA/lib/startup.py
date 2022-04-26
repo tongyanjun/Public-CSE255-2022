@@ -14,6 +14,7 @@ from pyspark import SparkContext
 from lib import sparkConfig
 
 sc = SparkContext(pyFiles=['lib.tgz'])
+#master="local[10]"
 print('sparkContext=',sc)
 print()
 

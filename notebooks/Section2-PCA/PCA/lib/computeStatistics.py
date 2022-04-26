@@ -12,7 +12,7 @@ _measurements=['TMAX', 'SNOW', 'SNWD', 'TMIN', 'PRCP', 'TOBS']
 _measurements=_measurements+[x+'_S10' for x in _measurements] + [x+'_S20' for x in _measurements]
 _measurements
 
-def load_or_compute_statistics(pkl_filename,weather_df,ms):
+def load_or_compute_statistics(sqlContext,pkl_filename,weather_df,ms):
     if os.path.isfile(pkl_filename):   
         print('precomputed statistics file exists')
         with open(pkl_filename,'br') as pkl_file:
