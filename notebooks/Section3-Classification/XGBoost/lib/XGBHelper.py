@@ -1,6 +1,22 @@
 import numpy as np
 import xgboost as xgb
 import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve
+
+def plot_roc(y_test,scores):
+    plt.figure(figsize=(8, 6))
+
+    for y_scores,label in scores:
+        tpr,fpr, thresholds = roc_curve(y_test, y_scores)
+        plt.plot(fpr, tpr, label=label)
+
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title("ROC Curves")
+    plt.grid()
+    plt.legend()
+    plt.show()
+
 
 def visualize_features(bst, features_map = None):
     xgb.plot_importance(bst)
