@@ -3,14 +3,11 @@ from pylab import *
 from scipy.stats import norm, uniform
 import scipy
 
-
-
 def error_curve(r_pos,r_neg,verticals=[],_xlim=None,_ylim=None):
     """ compute and plot the classification error curve for all rules of the form l>T
         r_pos,r_neg - arrays containing the positive ad the negative examples
         verticals - a list of pairs defining vertical lines (name,loc) loc is x location and name is a string
     """
-    assert r_pos.shape[0]==r_neg.shape[0], 'r_pos and r_neg must have the same size'
     neg_data=np.stack([r_neg,ones(r_neg.shape)]).T
     pos_data=np.stack([r_pos,-ones(r_pos.shape)]).T
     data=np.concatenate([pos_data,neg_data],axis=0)
@@ -18,12 +15,23 @@ def error_curve(r_pos,r_neg,verticals=[],_xlim=None,_ylim=None):
     sorted_data=data[data[:,0].argsort(),:]
     n=r_neg.shape[0]
     cs=cumsum(sorted_data[:,1])
-    cs=n-cs
-    min_loc=sorted_data[argmin(cs),0]
-    plot([min_loc,min_loc],[0,n],label='min train error')
+    csp=neg_data.shape[0]-cs
+    csm=pos_data.shape[0]+cs
+    _minp=min(csp)
+    _minm=min(csm)
+    if _minp<_minm:
+        _argmin=argmin(csp)
+        color='b'
+    else:
+        _argmin=argmin(csm)
+        color='r'
+    
+    min_loc=sorted_data[_argmin,0]
+    plot([min_loc,min_loc],[0,n],c=color,label='min train error')
     for name,loc in verticals:
         plot([loc,loc],[0,n],label=name)
-    plot(sorted_data[:,0],cs,label='error curve')
+    plot(sorted_data[:,0],csp,label='pos>neg error curve')
+    plot(sorted_data[:,0],csm,label='pos<neg error curve')
     xlabel('x')
     ylabel('number of mistakes')
     if not _xlim is None:
@@ -62,12 +70,24 @@ class Mixture:
                 left-=ns
         return np.concatenate(Samples)
         
-def TwoNormals(_dist_from_0=1, _nsigma=3):
+def TwoNormals(_dist_from_0=2, _nsigma=1):
     x = np.linspace(-_dist_from_0-_nsigma,_dist_from_0+_nsigma,100)
     negative=norm(loc=-_dist_from_0)
     positive=norm(loc=_dist_from_0)
     plot(x, positive.pdf(x), 'b-', lw=2, label='positive')
     plot(x, negative.pdf(x), 'r-', lw=2, label='negative')
+    xlabel('x')
+    ylabel('density')
+    grid()
+    legend();
+    return negative,positive
+
+def ThreeNormals(_dist_from_0=2, _nsigma=1,q=0.4,qq=0.5):
+    x = np.linspace(-_dist_from_0-_nsigma,_dist_from_0+_nsigma,100)
+    negative=norm(loc=0)
+    positive=Mixture([(q,norm(loc=-_dist_from_0)),(1-q,norm(loc=_dist_from_0))])
+    plot(x, qq*positive.pdf(x), 'b-', lw=2, label='positive')
+    plot(x, (1-qq)*negative.pdf(x), 'r-', lw=2, label='negative')
     xlabel('x')
     ylabel('density')
     grid()
