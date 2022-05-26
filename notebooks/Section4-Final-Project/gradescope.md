@@ -10,7 +10,7 @@ results.csv — your predictions on the random test set
 
 results_country.csv — your predictions on the country test set 
 
-code.zip — your code in a zip file
+code.zip — your code in a zip file. If we have any doubt about your results, we will use your code to validate the results.
 
 ## Each csv file should have the following columns
 
@@ -18,9 +18,9 @@ filename — e.g. image13724.npz
 
 urban — 1 when urban, 0 when not urban
 
-label  — predictions of -1, 1, and 0 when I don’t know
+pred_with_abstention  — predictions of -1, 1, and 0 when I don’t know
 
-label_accuracy - predictions of -1, 1 
+pred_wo_abstention - predictions of -1, 1 
 
 ## Evaluation 
 You will be evaluated on different test cases, that will also appear on a class leaderboard. You can choose an anonymous name for the leaderboard. Please note that the asymmetric loss can be a value between -2 and 1, and appears in the leaderboard that way. In your evaluation test cases, this value is mapped to a number between 0 and 10 so that you don't get negative points.
