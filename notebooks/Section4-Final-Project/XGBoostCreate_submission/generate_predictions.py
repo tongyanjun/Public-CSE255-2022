@@ -1,43 +1,3 @@
-from lib.KDTreeEncoding import *
-
-import xgboost as xgb
-from lib.XGBHelper import *
-from lib.XGBoost_params import *
-from lib.score_analysis import *
-
-from lib.logger import logger
-
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import numpy as np
-from numpy import load
-from glob import glob
-import pandas as pd
-import pickle as pkl
-
-poverty_dir='/Users/yoavfreund/datasets/poverty_v1.1/'
-image_dir=poverty_dir+'anon_images/'
-#use the following line when running on datahub
-#poverty_dir = '/dsmlp/datasets/cs255-sp22-a00-public/poverty/'
-depth=8   #for KDTree
-
-import pickle as pkl
-pkl_file='data/DumpNoSplit.pk'
-D=pkl.load(open(pkl_file,'rb'))
-# ['styled_logs', 'tree', 'mean', 'std']
-for k in D:
-    globals()[k]=D[k]
-scaling_mean=mean
-scaling_std=std
-
-bst_list=[x['bst'] for x in styled_logs[1]['log']]
-
-# ## Iterate over test sets
-
-folds=[{'in':'country_test_reduct.csv','out':'results_country.csv'},
-      {'in':'random_test_reduct.csv','out':'results.csv'}]
-
-# #%%writefile generate_predictions.py
 for fold_i in range(len(folds)):
     fold=folds[fold_i]
 
@@ -77,5 +37,3 @@ for fold_i in range(len(folds)):
     out.to_csv(outFile)
     print('\n\n'+'-'*60)
     print(outFile)
-
-
