@@ -15,14 +15,28 @@ from glob import glob
 import pandas as pd
 import pickle as pkl
 import sys
+from time import time
+class timer:
+    def __init__(self):
+        self.t0=time()
+        self.ts=[]
+    def mark(self,message):
+        self.ts.append((time()-self.t0,message))
+        print('%6.2f %s'%self.ts[-1])
+    def _print(self):
+        for i in range(len(self.ts)):
+            print('%6.2f %s'%self.ts[i])
 
+
+T=timer()
+            
 poverty_dir=sys.argv[1]
 image_dir=poverty_dir+'anon_images/'
 depth=8   #for KDTree
 
 import pickle as pkl
-pickle_file='../data/Checkpoint.pk'
-D=pkl.load(open(pkl_file,'rb'))
+pickle_file='data/Checkpoint.pk'
+D=pkl.load(open(pickle_file,'rb'))
 # ['styled_logs', 'tree', 'mean', 'std']
 
 ## add D's elements as python variables 
@@ -34,8 +48,8 @@ scaling_std=std
 #read out the ensemble of classifiers.
 bst_list=[x['bst'] for x in styled_logs[1]['log']]
 
+T.mark('read pickle file')
 # ## Iterate over test sets
-
 folds=[{'in':'country_test_reduct.csv','out':'../data/results_country.csv'},
       {'in':'random_test_reduct.csv','out':'../data/results.csv'}]
 
@@ -77,5 +91,6 @@ for fold_i in range(len(folds)):
     out.to_csv(outFile)
     print('\n\n'+'-'*60)
     print(outFile)
+    T.mark('generated '+outFile)
 
 

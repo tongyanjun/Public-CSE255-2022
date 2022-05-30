@@ -1,44 +1,3 @@
-from lib.KDTreeEncoding import *
-
-import xgboost as xgb
-from lib.XGBHelper import *
-from lib.XGBoost_params import *
-from lib.score_analysis import *
-
-from lib.logger import logger
-
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import numpy as np
-from numpy import load
-from glob import glob
-import pandas as pd
-import pickle as pkl
-import sys
-
-poverty_dir=sys.argv[1]
-image_dir=poverty_dir+'anon_images/'
-depth=8   #for KDTree
-
-import pickle as pkl
-pickle_file='../data/Checkpoint.pk'
-D=pkl.load(open(pkl_file,'rb'))
-# ['styled_logs', 'tree', 'mean', 'std']
-
-## add D's elements as python variables 
-for k in D:
-    globals()[k]=D[k]
-scaling_mean=mean
-scaling_std=std
-
-#read out the ensemble of classifiers.
-bst_list=[x['bst'] for x in styled_logs[1]['log']]
-
-# ## Iterate over test sets
-
-folds=[{'in':'country_test_reduct.csv','out':'../data/results_country.csv'},
-      {'in':'random_test_reduct.csv','out':'../data/results.csv'}]
-
 for fold_i in range(len(folds)):
     fold=folds[fold_i]
 
@@ -73,9 +32,8 @@ for fold_i in range(len(folds)):
     out['pred_with_abstention'] = pred_with_abstention
     out['pred_wo_abstention'] = pred_wo_abstention
 
+
     outFile=f'data/{fold["out"]}'
     out.to_csv(outFile)
     print('\n\n'+'-'*60)
     print(outFile)
-
-
