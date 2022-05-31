@@ -12,6 +12,8 @@ The following directories are on github [here](https://github.com/UCSD-Data-Scie
 - `XGBoostCreate_submission/` the directory that contains the files to be submitted.
 - `README.md` - this file
 
+The following directories should be in your path
+
 * `poverty-dir`: A pointer to the directory that contains `/anon_dir/` under which all of the anonymized images reside. On datahub this path is: `/datasets/cs255-sp22-a00-public/poverty/`
 
 ### Submission Directory Structure:
@@ -25,6 +27,7 @@ The following files, and no other files, must be in the directory:
    * `learn.py <poverty_dir>`: A script that performs the learning. it takes as input the file 
     `../public_tables/train.csv` and the images in the path `poverty_dir/anon_images/`. The learned predictor is stored in a pickled dictionary file `data/Checkpoint.pkl`. This file is later read by `predict.py`
    * `predict.py <poverty_dir>`: A script that use `data/Checkpoint.pkl` and generates the files `data/scores.csv` and `data/country_scores.csv` according to the input files `../public_tables/random_test_reduct.csv` and `../public_data/country_test_reduct.csv`
+   * Other files that your model needs.
 3. `data/`: contains `Checkpoint.pk` which contains a dictionary that defines the predictor.
 
 ### Example calls:

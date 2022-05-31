@@ -37,7 +37,6 @@ depth=8   #for KDTree
 import pickle as pkl
 pickle_file='data/Checkpoint.pk'
 D=pkl.load(open(pickle_file,'rb'))
-# ['styled_logs', 'tree', 'mean', 'std']
 
 ## add D's elements as python variables 
 for k in D:
@@ -50,26 +49,26 @@ bst_list=[x['bst'] for x in styled_logs[1]['log']]
 
 T.mark('read pickle file')
 # ## Iterate over test sets
-folds=[{'in':'country_test_reduct.csv','out':'../data/results_country.csv'},
-      {'in':'random_test_reduct.csv','out':'../data/results.csv'}]
+folds=[{'in':'country_test_reduct.csv','out':'results_country.csv'},
+      {'in':'random_test_reduct.csv','out':'results.csv'}]
 
 for fold_i in range(len(folds)):
     fold=folds[fold_i]
 
     #load table entries
     test_csv=f'../public_tables/{fold["in"]}'
-
     test=pd.read_csv(test_csv,index_col=0)
     test.index=test['filename']
     test.shape
 
     out=pd.DataFrame()
-    out.index=test.index
-    out['label']=0
+    out['filename'] = test['filename']
     out['urban']=test['urban']
+    out['pred_wo_abstention']=0
+    out.set_index('filename', inplace=True)
 
     ## Encode all data using encoding tree
-    Enc_data=encoded_dataset(image_dir,out,tree,label_col='label')
+    Enc_data=encoded_dataset(image_dir,out,tree,label_col='pred_wo_abstention')
 
     data=to_DMatrix(Enc_data.data)
     Preds=zeros([Enc_data.data.shape[0],len(bst_list)])

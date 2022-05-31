@@ -16,6 +16,7 @@ import pandas as pd
 import pickle as pkl
 import sys
 from time import time
+import os
 
 class timer:
     def __init__(self):
@@ -87,7 +88,8 @@ if __name__=='__main__':
 
     _mean,_std=plot_scores(styled_logs,title='All')
     T.mark('trained trees')
-
+    
+    os.makedirs('data', exist_ok=True)
     pickle_file='data/Checkpoint.pk'
     Dump={'styled_logs':styled_logs,
          'tree':tree,
