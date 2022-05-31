@@ -30,9 +30,9 @@ The following files, and no other files, must be in the directory:
 2. `code/`: contains:
    * `learn.py <poverty_dir>`: A script that performs the learning. it takes as input the file 
     `../public_tables/train.csv` and the images in the path `poverty_dir/anon_images/`. The learned predictor is stored in a pickled dictionary file `data/Checkpoint.pkl`. This file is later read by `predict.py`
-   * `predict.py <poverty_dir>`: A script that use `data/Checkpoint.pkl` and generates the files `data/results.csv` and `data/country_results.csv` according to the input files `../public_tables/random_test_reduct.csv` and `../public_data/country_test_reduct.csv`
+   * `predict.py <poverty_dir>`: A script that use `data/Checkpoint.pkl` and generates the files `data/results.csv` and `data/country_results.csv` according to the input files `../public_tables/random_test_reduct.csv` and `../public_data/country_test_reduct.csv`. The generated result files should be the same as the ones you submitted to Gradescope. 
    * Other files that your model needs.
-3. `data/`: contains `Checkpoint.pk` which contains a dictionary that defines the predictor.
+3. `data/`: contains `Checkpoint.pkl` which contains the learned XGBoost predictor that can reproduce the same result files you submitted to Gradescope.
 
 ### Example calls:
 The following commands are assumed to be executed inside the directory `XGBoostCreate_submission/`. The first line is the command as it would be executed on datahub. The following blocks are the output from running the commands on a laptop.
@@ -82,12 +82,13 @@ Note that this is only for code submission. You still need to submit your `resul
 
 1. `explanation.md`: a markdown file with an explanation of you did that improves the results.
 2. `code/`: contains:
-    * `predict.py <poverty_dir>`: A script that uses your saved moels in `data/` and generates the files `data/results.csv` and `data/country_results.csv` according to the input files `../public_tables/random_test_reduct.csv` and `../public_data/country_test_reduct.csv`
+    * `learn.py <poverty_dir>`: A script that performs the learning of your models. it takes as input the file `../public_tables/train.csv` and the images in the path `poverty_dir/anon_images/`. It should output your models and save them in `data/`. 
+    * `predict.py <poverty_dir>`: A script that uses your saved models in `data/` and generates the files `data/results.csv` and `data/country_results.csv` according to the input files `../public_tables/random_test_reduct.csv` and `../public_data/country_test_reduct.csv`. The generated result files should be the same as the ones you submitted to Gradescope. 
     * Other files that your model needs.
-3. `data/`: contains your saved models and results files you generated (`results.csv` and `country_results.csv`). 
+3. `data/`: contains your **saved models** that can reproduce the same result files you submitted to Gradescope.
 
 ### How to submit
 
 1. Zip your folder with the structure described above.
-2. Name your zip file the **same name** you used in gradescope leaderboard submission. 
+2. Name your zip file the **same name** you used in the Gradescope leaderboard submission. 
 3. Upload your zip file to this link using dropbox: https://www.dropbox.com/request/6L9YhZ8jStt7z1fxiFwc
