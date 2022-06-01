@@ -93,5 +93,3 @@ Note that this is only for code submission. You still need to submit your `resul
 2. Name your zip file the **same name** you used in the Gradescope leaderboard submission. 
 3. Upload your zip file to this link using dropbox: https://www.dropbox.com/request/6L9YhZ8jStt7z1fxiFwc
 
-## Remember to upload your results.csv, results_country.csv and explanation.md file with the compressed code directory, where `explanation.md` is a text file that describes the improvements over Freund-XGBoost or your NN solution.  You need to say what are the changes in the learn.py code and why you think these changes helped improve the performance.
-
