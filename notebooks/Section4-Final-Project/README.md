@@ -23,7 +23,9 @@ If you used a differet learning algorithm, see the instructions in the next sect
 ### Submission Directory Structure:
 
 `XGBoostCreate_submission/`:  the directory that contains all of the files in the submission.
-Make zip file from this directory and submit it to **Gradesscope** as `code.zip` or `code.gz` or `code.tgz`
+Make zip file from this directory and submit it to **Gradesscope** as `code.zip` or `code.tar.gz` or `code.tgz`
+
+If you are submitting as `code.zip`, gradescope will automaticall unzip in the file uploader. This is expected and you can just hit upload.
 
 The following files, and no other files, must be in the directory:
 1. `explanation.md`, This is a text file that describes the improvements over Freund-XGBoost.  You need to say what are the changes in the learn.py code and why you think these changes helped improve the performance.
@@ -76,7 +78,7 @@ data/../data/results.csv
 
 ### Other solutions (neural networks or your models are too large to upload to Gradescope)
 
-Note that this is only for code submission. You still need to submit your `results.csv` and `country_reuslts.csv` to Gradescope.
+Note that this is only for code submission. You still need to submit your `results.csv` and `country_results.csv` to Gradescope.
 
 ### Submission Directory Structure:
 
