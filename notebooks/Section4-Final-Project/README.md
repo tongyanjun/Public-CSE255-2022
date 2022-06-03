@@ -15,18 +15,43 @@ The following directories should be in your path (already on datahub)
 
 ## How to submit your code
 
-### Solution based on KDTree+XGBoost (small models that can be directly uploaded to Gradescope)
+### Fies to be upoaded to gradescope:
+1.  `results.csv`
+2. `country_results.csv`
+3. `explanation.md`: this file must contain an english explanaton for how your code works. The explanation should be between 300 and 500 words long.
 
-The submission format below assumes that your code based on KDTree+XGBoost. 
-If you used a differet learning algorithm, see the instructions in the next section below.
+The fourth file depends on whether or not you checkpoint is smaller enough for nbgrader.
 
-### Submission Directory Structure:
+* If file is smaller than 50MB then you upload your code (organization described below) as `code.tgz`
+* If file is larger than 50MB then you upload it as a `.tgz` file to `https://www.dropbox.com/request/6L9YhZ8jStt7z1fxiFwc`. The filename of the `.tgz` file should be something meaningful (it can be your submission name on Gradescope). Then, create a little text file called `code.id` and state in it the name of the file that you uploaded and the time of the upload.
 
-`XGBoostCreate_submission/`:  the directory that contains all of the files in the submission.
-Make zip file from this directory and submit it to **Gradesscope** as `code.tar.gz` or `code.tgz`
+Thus, you should only submit 4 files to Gradescope:
 
+1. `results.csv`
+2. `country_results.csv`
+3. `explanation.md`
+4. `code.tgz` OR `code.id`
 
-The following files, and no other files, must be in the directory:
+You can either directly upload these 4 files to Gradescope without zipping them or you can zip them and submit the zip file. 
+
+**If you choose to upload a zip file, make sure that all 4 files are directly inside your zip file without any folder.** That is, you should see 4 FILES (reuslts.csv, results_country.csv, explanation.md, code.tgz/code.id) instead of a FOLDER after DIRECTLY opening your zip file. This is the error you will probably get if you didn't follow the structure.
+
+```
+Test Failed: [Errno 2] No such file or directory: '../submission/results.csv'
+```
+
+### Code Directory Structure:
+
+Inside your `code.tgz` (uploaded on Gradescope) or any `.tgz` file (uploaded to dropbox), you should have a folder named using any of following name.
+
+- `XGBoostCreate_submission/` or 
+- `NN_submission/` or 
+- `other_submission`
+
+**Your folder can only be these 3 names**.
+
+Inside this directory, you should have the following subfolders: 
+
 1. `code/`: contains:
    * `learn.py <poverty_dir>`: A script that performs the learning. it takes as input the file 
     `../public_tables/train.csv` and the images in the path `poverty_dir/anon_images/`. The learned predictor is stored in a pickled dictionary file `data/Checkpoint.pkl`. This file is later read by `predict.py`
@@ -34,8 +59,16 @@ The following files, and no other files, must be in the directory:
    * Other files that your model needs.
 2. `data/`: contains `Checkpoint.pkl` which contains the learned XGBoost predictor that can reproduce the same result files you submitted to Gradescope.
 
+**In the above instructions, we are assuming that you run `learn.py` and `predict.py` in `XGBoostCreate_submission/` or `NN_submission/` or `other_submission`.** You need make sure the following:
+- Your `learn.py` and `predict.py` take a single argument of the path to `poverty_dir` and use it to read the image files.
+- Your `learn.py` and `predict.py` read the `[Your submitted folder name]/../public_tables/random_test_reduct.csv` and `[Your submitted folder name]../public_data/country_test_reduct.csv`. We provide these files in our testing, so you shouldn't include `public_tables` folder in your submission. 
+
+### Check before you submit
+Before submitting, check that you can run `predict.py` and that it generates the same results files as the one you submitted. **If these do not match, your score on the submission will be zero**. You will know if your ccode passed the test a day after your submission.
+
+
 ### Example calls:
-The following commands are assumed to be executed inside the directory `XGBoostCreate_submission/`. The first line is the command as it would be executed on datahub. The following blocks are the output from running the commands on a laptop.
+The following commands are assumed to be executed inside the directory `XGBoostCreate_submission/`, `NN_submission/` or `other_submission`. The first line is the command as it would be executed on datahub. The following blocks are the output from running the commands on a laptop.
 
 * `python3 code/learn.py /datasets/cs255-sp22-a00-public/poverty/`
 
@@ -73,23 +106,3 @@ data/../data/results_country.csv
 data/../data/results.csv
 127.08 generated data/../data/results.csv
 ```
-
-### Other solutions (neural networks or your models are too large to upload to Gradescope)
-
-Note that this is only for code submission. You still need to submit your `results.csv` and `country_results.csv` to Gradescope.
-
-### Submission Directory Structure:
-
-1. `explanation.md`: a markdown file with an explanation of you did that improves the results.
-2. `code/`: contains:
-    * `learn.py <poverty_dir>`: A script that performs the learning of your models. it takes as input the file `../public_tables/train.csv` and the images in the path `poverty_dir/anon_images/`. It should output your models and save them in `data/`. 
-    * `predict.py <poverty_dir>`: A script that uses your saved models in `data/` and generates the files `data/results.csv` and `data/country_results.csv` according to the input files `../public_tables/random_test_reduct.csv` and `../public_data/country_test_reduct.csv`. The generated result files should be the same as the ones you submitted to Gradescope. 
-    * Other files that your model needs.
-3. `data/`: contains your **saved models** that can reproduce the same result files you submitted to Gradescope.
-
-### How to submit
-
-1. Zip your folder with the structure described above.
-2. Name your zip file the **same name** you used in the Gradescope leaderboard submission. 
-3. Upload your zip file to this link using dropbox: https://www.dropbox.com/request/6L9YhZ8jStt7z1fxiFwc
-
